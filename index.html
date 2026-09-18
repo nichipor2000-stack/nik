@@ -178,6 +178,40 @@
     line-height: 1.6;
   }
 
+  <!-- ============ ЭКРАН ПРИВЕТСТВИЯ / РЕГИСТРАЦИИ ============ -->
+<div class="welcome-screen" id="welcome-screen">
+  <div class="welcome-card">
+    <div class="welcome-logo">📦</div>
+    <h1 class="welcome-title">Сканер посылок</h1>
+    <p class="welcome-subtitle">Войдите или создайте аккаунт, чтобы продолжить</p>
+
+    <div class="welcome-tabs">
+      <div class="welcome-tab active" data-wtab="login" onclick="switchWelcomeTab('login')">Вход</div>
+      <div class="welcome-tab" data-wtab="register" onclick="switchWelcomeTab('register')">Регистрация</div>
+    </div>
+
+    <!-- Форма входа -->
+    <div id="welcome-login">
+      <input id="login-nick" placeholder="Ник" autocomplete="username">
+      <input id="login-pass" type="password" placeholder="Пароль" autocomplete="current-password">
+      <button onclick="doLogin()">🔓 Войти</button>
+    </div>
+
+    <!-- Форма регистрации -->
+    <div id="welcome-register" style="display:none;">
+      <input id="reg-nick" placeholder="Придумайте ник" autocomplete="off">
+      <input id="reg-pass" type="password" placeholder="Придумайте пароль" autocomplete="new-password">
+      <input id="reg-pass2" type="password" placeholder="Повторите пароль" autocomplete="new-password">
+      <button class="success" onclick="doRegister()">✅ Зарегистрироваться</button>
+    </div>
+
+    <div id="welcome-error" style="display:none;" class="welcome-error"></div>
+
+    <p class="welcome-note">
+      Данные хранятся только на вашем устройстве
+    </p>
+  </div>
+</div>
   /* ============ ОСНОВНОЙ КОНТЕНТ ============ */
   .main-content { padding: 16px; }
 
