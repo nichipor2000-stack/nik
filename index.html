@@ -38,32 +38,60 @@
     overflow-x: hidden;
   }
 
-  /* ============ ШАПКА ============ */
-  .app-header {
-    background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
-    color: white;
-    padding: 16px 20px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
-  }
-  .menu-btn {
-    background: rgba(255,255,255,0.15);
-    border: none;
-    color: white;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    font-size: 22px;
-    cursor: pointer;
+  /* ============ ЭКРАН ПРИВЕТСТВИЯ ============ */
+  .welcome-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(160deg, #1e40af 0%, #2563eb 40%, #3b82f6 100%);
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+  .welcome-card {
+    background: white;
+    border-radius: 24px;
+    padding: 28px 22px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+    animation: cardIn 0.4s ease;
+  }
+  .welcome-logo { font-size: 60px; line-height: 1; margin-bottom: 12px; }
+  .welcome-title { font-size: 24px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px; }
+  .welcome-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 22px; line-height: 1.4; }
+  .welcome-tabs {
+    display: flex; gap: 6px; background: var(--bg);
+    padding: 4px; border-radius: 12px; margin-bottom: 18px;
+  }
+  .welcome-tab {
+    flex: 1; padding: 10px; text-align: center; border-radius: 9px;
+    font-size: 14px; font-weight: 700; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .welcome-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+  .welcome-error {
+    background: var(--danger-light); color: var(--danger);
+    font-size: 13px; font-weight: 600; padding: 10px 14px;
+    border-radius: 10px; margin-top: 8px; text-align: left;
+  }
+  .welcome-note { font-size: 11px; color: var(--text-secondary); margin-top: 16px; line-height: 1.5; }
+
+  /* ============ ШАПКА ============ */
+  .app-header {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
+    color: white; padding: 16px 20px 20px;
+    display: flex; align-items: center; gap: 12px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+  }
+  .menu-btn {
+    background: rgba(255,255,255,0.15); border: none; color: white;
+    width: 44px; height: 44px; border-radius: 12px; font-size: 22px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
   .menu-btn:active { background: rgba(255,255,255,0.3); }
@@ -73,131 +101,272 @@
 
   /* ============ БОКОВОЕ МЕНЮ ============ */
   .sidebar-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.5);
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s;
-    backdrop-filter: blur(2px);
+    position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5);
+    z-index: 200; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s; backdrop-filter: blur(2px);
   }
   .sidebar-overlay.open { opacity: 1; pointer-events: auto; }
-
   .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 290px;
-    max-width: 85vw;
-    height: 100vh;
-    background: var(--card);
-    z-index: 201;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    position: fixed; top: 0; left: 0; width: 290px; max-width: 85vw;
+    height: 100vh; background: var(--card); z-index: 201;
+    transform: translateX(-100%); transition: transform 0.3s ease;
     box-shadow: 4px 0 24px rgba(15, 23, 42, 0.15);
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
   }
   .sidebar.open { transform: translateX(0); }
-
   .sidebar-header {
-    padding: 20px;
-    background: linear-gradient(135deg, #1e40af, #2563eb);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 20px; background: linear-gradient(135deg, #1e40af, #2563eb);
+    color: white; display: flex; justify-content: space-between; align-items: center;
   }
   .sidebar-header h2 { font-size: 16px; font-weight: 700; }
   .sidebar-close {
-    background: rgba(255,255,255,0.15);
-    border: none;
-    color: white;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    font-size: 18px;
-    cursor: pointer;
+    background: rgba(255,255,255,0.15); border: none; color: white;
+    width: 32px; height: 32px; border-radius: 8px; font-size: 18px; cursor: pointer;
   }
-
   .sidebar-body { flex: 1; overflow-y: auto; padding: 12px; }
-
   .person-item {
-    padding: 14px 16px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.15s;
-    border: 1.5px solid transparent;
+    padding: 14px 16px; border-radius: 12px; cursor: pointer;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 12px;
+    transition: all 0.15s; border: 1.5px solid transparent;
   }
   .person-item:hover { background: var(--primary-light); }
-  .person-item.active {
-    background: var(--primary-light);
-    border-color: var(--primary);
-  }
+  .person-item.active { background: var(--primary-light); border-color: var(--primary); }
   .person-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 16px;
-    flex-shrink: 0;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; flex-shrink: 0;
   }
   .person-info { flex: 1; min-width: 0; }
-  .person-name {
-    font-weight: 700;
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  .person-name { font-weight: 700; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .person-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-
-  .sidebar-empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-secondary);
-    font-size: 14px;
-  }
-
+  .sidebar-empty { text-align: center; padding: 40px 20px; color: var(--text-secondary); font-size: 14px; }
   .sidebar-footer {
-    padding: 12px 16px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text-secondary);
-    text-align: center;
-    line-height: 1.6;
+    padding: 12px 16px; border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-secondary); text-align: center; line-height: 1.6;
   }
 
-  <!-- ============ ЭКРАН ПРИВЕТСТВИЯ / РЕГИСТРАЦИИ ============ -->
+  /* ============ ОСНОВНОЙ КОНТЕНТ ============ */
+  .main-content { padding: 16px; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab {
+    flex: 1; padding: 12px 8px; text-align: center;
+    background: var(--card); border-radius: 14px; cursor: pointer;
+    font-weight: 600; color: var(--text-secondary); border: 2px solid transparent;
+    font-size: 13px; user-select: none; transition: all 0.2s ease;
+    box-shadow: var(--shadow); display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+  }
+  .tab .icon { font-size: 20px; }
+  .tab.active {
+    color: white; background: linear-gradient(135deg, #2563eb, #3b82f6);
+    border-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    transform: translateY(-2px);
+  }
+  .tab:active { transform: scale(0.97); }
+
+  .panel { display: none; animation: fadeIn 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  #reader {
+    width: 100%; border-radius: 20px; overflow: hidden;
+    background: #000; min-height: 260px; box-shadow: var(--shadow-lg); position: relative;
+  }
+  #reader video { border-radius: 20px; }
+  .scan-hint { text-align: center; color: var(--text-secondary); font-size: 12px; margin: 10px 0; }
+  .scan-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+  .scan-actions button { padding: 12px 8px; font-size: 13px; }
+  .manual-search { display: flex; gap: 8px; margin: 10px 0; }
+  .manual-search input { flex: 1; margin-bottom: 0; }
+  .manual-search button { width: auto; padding: 14px 18px; margin-bottom: 0; flex-shrink: 0; }
+
+  .card {
+    background: var(--card); border-radius: 16px; padding: 16px;
+    margin-bottom: 12px; box-shadow: var(--shadow); animation: cardIn 0.4s ease;
+  }
+  @keyframes cardIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  .card h3 {
+    font-size: 16px; margin-bottom: 10px; color: var(--primary-dark);
+    word-break: break-all; font-weight: 700; display: flex; align-items: center; gap: 8px;
+  }
+  .card p { font-size: 14px; margin: 6px 0; line-height: 1.5; }
+  .card .label {
+    color: var(--text-secondary); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;
+  }
+  .card.found { border-left: 5px solid var(--success); background: linear-gradient(to right, var(--success-light) 0%, white 15%); }
+  .card.notfound { border-left: 5px solid var(--danger); background: linear-gradient(to right, var(--danger-light) 0%, white 15%); }
+  .card.info { border-left: 5px solid var(--primary); }
+
+  input, button, select {
+    width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 15px;
+    border: 1.5px solid var(--border); margin-bottom: 10px; font-family: inherit;
+    background: var(--card); color: var(--text); transition: all 0.15s ease;
+  }
+  input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+  input::placeholder { color: #94a3b8; }
+  button {
+    background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; border: none;
+    font-weight: 700; cursor: pointer; transition: all 0.15s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  button:active { transform: scale(0.97); }
+  button.danger { background: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); }
+  button.success { background: linear-gradient(135deg, #16a34a, #22c55e); box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
+  button.orange { background: linear-gradient(135deg, #ea580c, #f97316); box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25); }
+  button.purple { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
+  button.ghost { background: white; color: var(--primary); border: 1.5px solid var(--primary); box-shadow: none; }
+
+  .empty {
+    text-align: center; color: var(--text-secondary); padding: 50px 30px;
+    font-size: 14px; background: var(--card); border-radius: 20px; box-shadow: var(--shadow);
+  }
+  .empty .icon { font-size: 44px; display: block; margin-bottom: 12px; opacity: 0.5; }
+
+  #barcode-preview {
+    display: none; background: white; padding: 20px; border-radius: 16px;
+    text-align: center; margin-bottom: 12px; box-shadow: var(--shadow-lg);
+    border: 2px dashed var(--primary-light);
+  }
+  #barcode-preview svg { max-width: 100%; height: auto; }
+  #barcode-preview .barcode-num {
+    font-family: 'Courier New', monospace; font-size: 17px; font-weight: bold;
+    margin-top: 12px; letter-spacing: 2px;
+  }
+
+  .divider {
+    display: flex; align-items: center; gap: 12px; margin: 16px 0;
+    color: var(--text-secondary); font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat-card {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 14px 8px;
+    border-radius: 14px; box-shadow: var(--shadow); text-align: center;
+  }
+  .stat-card .num { font-size: 22px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
+  .stat-card .lbl { font-size: 11px; color: var(--text-secondary); font-weight: 600; margin-top: 4px; }
+
+  .voice-btn { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
+  .voice-btn.listening { animation: pulse 1.2s infinite; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.5); }
+    50% { box-shadow: 0 0 0 12px rgba(124, 58, 237, 0); }
+  }
+
+  /* ============ НИЖНЕЕ МЕНЮ ============ */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; display: flex; border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08); z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .nav-item {
+    flex: 1; padding: 10px 8px; display: flex; flex-direction: column;
+    align-items: center; gap: 3px; cursor: pointer;
+    color: var(--text-secondary); font-size: 11px; font-weight: 700;
+    transition: all 0.2s; border-top: 3px solid transparent;
+  }
+  .nav-item .nav-icon { font-size: 22px; line-height: 1; }
+  .nav-item.active {
+    color: var(--primary); border-top-color: var(--primary);
+    background: linear-gradient(to bottom, var(--primary-light) 0%, transparent 100%);
+  }
+  .nav-item:active { background: var(--primary-light); }
+
+  /* ============ КОНВЕРТЕР ============ */
+  .converter-card {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .converter-title {
+    font-size: 16px; font-weight: 800; color: var(--primary-dark);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .rate-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .rate-row label { font-size: 13px; font-weight: 700; color: var(--text-secondary); min-width: 130px; }
+  .rate-row input { margin-bottom: 0; flex: 1; }
+
+  .currency-input {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px; position: relative;
+  }
+  .currency-input input {
+    margin-bottom: 0; padding-right: 60px;
+    font-size: 22px; font-weight: 700; text-align: right;
+  }
+  .currency-input .curr-label {
+    position: absolute; right: 18px; font-weight: 800;
+    color: var(--text-secondary); font-size: 14px; pointer-events: none;
+  }
+  .currency-input .flag { font-size: 24px; flex-shrink: 0; width: 32px; text-align: center; }
+
+  .swap-btn {
+    display: flex; align-items: center; justify-content: center;
+    margin: 6px auto; width: 46px; height: 46px; border-radius: 50%;
+    background: white; color: var(--primary); font-size: 22px;
+    box-shadow: var(--shadow-lg); border: 2px solid var(--primary-light);
+    cursor: pointer; transition: transform 0.3s;
+  }
+  .swap-btn:active { transform: rotate(180deg); }
+
+  .result-box {
+    background: white; border-radius: 16px; padding: 20px; margin-top: 16px;
+    text-align: center; box-shadow: var(--shadow); border: 2px dashed var(--primary-light);
+  }
+  .result-box .result-label {
+    font-size: 12px; font-weight: 700; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+  }
+  .result-box .result-value {
+    font-size: 30px; font-weight: 800; color: var(--primary-dark);
+    line-height: 1.2; word-break: break-all;
+  }
+  .result-box .result-sub { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+
+  .saved-rates { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .rate-chip {
+    background: white; border: 1.5px solid var(--border); border-radius: 20px;
+    padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--text);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .rate-chip:active { background: var(--primary-light); border-color: var(--primary); }
+  .rate-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  .footer {
+    text-align: center; padding: 16px; color: var(--text-secondary);
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  }
+  .footer strong { color: var(--primary-dark); }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ============ ЭКРАН ПРИВЕТСТВИЯ ============ -->
 <div class="welcome-screen" id="welcome-screen">
   <div class="welcome-card">
     <div class="welcome-logo">📦</div>
     <h1 class="welcome-title">Сканер посылок</h1>
-    <p class="welcome-subtitle">Войдите или создайте аккаунт, чтобы продолжить</p>
+    <p class="welcome-subtitle">Войдите или создайте аккаунт</p>
 
     <div class="welcome-tabs">
       <div class="welcome-tab active" data-wtab="login" onclick="switchWelcomeTab('login')">Вход</div>
       <div class="welcome-tab" data-wtab="register" onclick="switchWelcomeTab('register')">Регистрация</div>
     </div>
 
-    <!-- Форма входа -->
     <div id="welcome-login">
       <input id="login-nick" placeholder="Ник" autocomplete="username">
       <input id="login-pass" type="password" placeholder="Пароль" autocomplete="current-password">
       <button onclick="doLogin()">🔓 Войти</button>
     </div>
 
-    <!-- Форма регистрации -->
     <div id="welcome-register" style="display:none;">
       <input id="reg-nick" placeholder="Придумайте ник" autocomplete="off">
       <input id="reg-pass" type="password" placeholder="Придумайте пароль" autocomplete="new-password">
@@ -207,606 +376,9 @@
 
     <div id="welcome-error" style="display:none;" class="welcome-error"></div>
 
-    <p class="welcome-note">
-      Данные хранятся только на вашем устройстве
-    </p>
+    <p class="welcome-note">Данные хранятся только на вашем устройстве</p>
   </div>
 </div>
-  /* ============ ОСНОВНОЙ КОНТЕНТ ============ */
-  .main-content { padding: 16px; }
-
-  /* ============ ТАБЫ ПОСЫЛОК ============ */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-  .tab {
-    flex: 1;
-    padding: 12px 8px;
-    text-align: center;
-    background: var(--card);
-    border-radius: 14px;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--text-secondary);
-    border: 2px solid transparent;
-    font-size: 13px;
-    user-select: none;
-    transition: all 0.2s ease;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-  .tab .icon { font-size: 20px; }
-  .tab.active {
-    color: white;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
-    border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
-    transform: translateY(-2px);
-  }
-  .tab:active { transform: scale(0.97); }
-
-  .panel { display: none; animation: fadeIn 0.3s ease; }
-  .panel.active { display: block; }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ============ СКАНЕР ============ */
-  #reader {
-    width: 100%;
-    border-radius: 20px;
-    overflow: hidden;
-    background: #000;
-    min-height: 260px;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-  }
-  #reader video { border-radius: 20px; }
-
-  .scan-hint {
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 12px;
-    margin: 10px 0;
-  }
-
-  .scan-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin: 10px 0;
-  }
-  .scan-actions button { padding: 12px 8px; font-size: 13px; }
-
-  .manual-search { display: flex; gap: 8px; margin: 10px 0; }
-  .manual-search input { flex: 1; margin-bottom: 0; }
-  .manual-search button { width: auto; padding: 14px 18px; margin-bottom: 0; flex-shrink: 0; }
-
-  /* ============ КАРТОЧКИ ============ */
-  .card {
-    background: var(--card);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-    animation: cardIn 0.4s ease;
-  }
-  @keyframes cardIn {
-    from { opacity: 0; transform: scale(0.96); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  .card h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: var(--primary-dark);
-    word-break: break-all;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card p { font-size: 14px; margin: 6px 0; line-height: 1.5; }
-  .card .label {
-    color: var(--text-secondary);
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: block;
-    margin-bottom: 2px;
-  }
-  .card.found {
-    border-left: 5px solid var(--success);
-    background: linear-gradient(to right, var(--success-light) 0%, white 15%);
-  }
-  .card.notfound {
-    border-left: 5px solid var(--danger);
-    background: linear-gradient(to right, var(--danger-light) 0%, white 15%);
-  }
-  .card.info { border-left: 5px solid var(--primary); }
-
-  /* ============ ФОРМА ============ */
-  input, button, select {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: 12px;
-    font-size: 15px;
-    border: 1.5px solid var(--border);
-    margin-bottom: 10px;
-    font-family: inherit;
-    background: var(--card);
-    color: var(--text);
-    transition: all 0.15s ease;
-  }
-  input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-  }
-  input::placeholder { color: #94a3b8; }
-
-  button {
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
-    color: white;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  button:active { transform: scale(0.97); }
-  button.danger {
-    background: linear-gradient(135deg, #dc2626, #ef4444);
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
-  }
-  button.success {
-    background: linear-gradient(135deg, #16a34a, #22c55e);
-    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
-  }
-  button.orange {
-    background: linear-gradient(135deg, #ea580c, #f97316);
-    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
-  }
-  button.purple {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
-  }
-  button.ghost {
-    background: white;
-    color: var(--primary);
-    border: 1.5px solid var(--primary);
-    box-shadow: none;
-  }
-
-  .empty {
-    text-align: center;
-    color: var(--text-secondary);
-    padding: 50px 30px;
-    font-size: 14px;
-    background: var(--card);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-  }
-  .empty .icon { font-size: 44px; display: block; margin-bottom: 12px; opacity: 0.5; }
-
-  #barcode-preview {
-    display: none;
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    text-align: center;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow-lg);
-    border: 2px dashed var(--primary-light);
-  }
-  #barcode-preview svg { max-width: 100%; height: auto; }
-  #barcode-preview .barcode-num {
-    font-family: 'Courier New', monospace;
-    font-size: 17px;
-    font-weight: bold;
-    margin-top: 12px;
-    letter-spacing: 2px;
-  }
-
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 16px 0;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ============ СТАТИСТИКА ============ */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .stat-card {
-    background: linear-gradient(135deg, #eff6ff, #dbeafe);
-    padding: 14px 8px;
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    text-align: center;
-  }
-  .stat-card .num {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--primary-dark);
-    line-height: 1.2;
-  }
-  .stat-card .lbl {
-    font-size: 11px;
-    color: var(--text-secondary);
-    font-weight: 600;
-    margin-top: 4px;
-  }
-
-  .voice-btn {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
-  }
-  .voice-btn.listening { animation: pulse 1.2s infinite; }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.5); }
-    50% { box-shadow: 0 0 0 12px rgba(124, 58, 237, 0); }
-  }
-
-  /* ============ НИЖНЕЕ МЕНЮ ============ */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    display: flex;
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
-    z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .nav-item {
-    flex: 1;
-    padding: 10px 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-size: 11px;
-    font-weight: 700;
-    transition: all 0.2s;
-    border-top: 3px solid transparent;
-  }
-  .nav-item .nav-icon { font-size: 22px; line-height: 1; }
-  .nav-item.active {
-    color: var(--primary);
-    border-top-color: var(--primary);
-    background: linear-gradient(to bottom, var(--primary-light) 0%, transparent 100%);
-  }
-  .nav-item:active { background: var(--primary-light); }
-
-  /* ============ КОНВЕРТЕР ============ */
-  .converter-card {
-    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-  }
-  .converter-title {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--primary-dark);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .rate-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .rate-row label {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    min-width: 130px;
-  }
-  .rate-row input { margin-bottom: 0; flex: 1; }
-
-  .currency-input {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-    position: relative;
-  }
-  .currency-input input {
-    margin-bottom: 0;
-    padding-right: 60px;
-    font-size: 22px;
-    font-weight: 700;
-    text-align: right;
-  }
-  .currency-input .curr-label {
-    position: absolute;
-    right: 18px;
-    font-weight: 800;
-    color: var(--text-secondary);
-    font-size: 14px;
-    pointer-events: none;
-  }
-  .currency-input .flag {
-    font-size: 24px;
-    flex-shrink: 0;
-    width: 32px;
-    text-align: center;
-  }
-
-  .swap-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 6px auto;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: white;
-    color: var(--primary);
-    font-size: 22px;
-    box-shadow: var(--shadow-lg);
-    border: 2px solid var(--primary-light);
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  .swap-btn:active { transform: rotate(180deg); }
-
-  .result-box {
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    margin-top: 16px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    border: 2px dashed var(--primary-light);
-  }
-  .result-box .result-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-  }
-  .result-box .result-value {
-    font-size: 30px;
-    font-weight: 800;
-    color: var(--primary-dark);
-    line-height: 1.2;
-    word-break: break-all;
-  }
-  .result-box .result-sub {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-top: 6px;
-  }
-
-  .saved-rates {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-  .rate-chip {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .rate-chip:active { background: var(--primary-light); border-color: var(--primary); }
-  .rate-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-  .footer {
-    text-align: center;
-    padding: 16px;
-    color: var(--text-secondary);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-  .footer strong { color: var(--primary-dark); }
-
- /* ============ ЭКРАН ПРИВЕТСТВИЯ ============ */
-  .welcome-screen {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(160deg, #1e40af 0%, #2563eb 40%, #3b82f6 100%);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
-  }
-  .welcome-card {
-    background: white;
-    border-radius: 24px;
-    padding: 28px 22px;
-    width: 100%;
-    max-width: 380px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    text-align: center;
-    animation: cardIn 0.4s ease;
-  }
-  .welcome-logo {
-    font-size: 60px;
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-  .welcome-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--primary-dark);
-    margin-bottom: 6px;
-  }
-  .welcome-subtitle {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 22px;
-    line-height: 1.4;
-  }
-  .welcome-tabs {
-    display: flex;
-    gap: 6px;
-    background: var(--bg);
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 18px;
-  }
-  .welcome-tab {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-    border-radius: 9px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .welcome-tab.active {
-    background: white;
-    color: var(--primary);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  }
-  .welcome-error {
-    background: var(--danger-light);
-    color: var(--danger);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 10px 14px;
-    border-radius: 10px;
-    margin-top: 8px;
-    text-align: left;
-  }
-  .welcome-note {
-    font-size: 11px;
-    color: var(--text-secondary);
-    margin-top: 16px;
-    line-height: 1.5;
-  } /* ============ ЭКРАН ПРИВЕТСТВИЯ ============ */
-  .welcome-screen {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(160deg, #1e40af 0%, #2563eb 40%, #3b82f6 100%);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
-  }
-  .welcome-card {
-    background: white;
-    border-radius: 24px;
-    padding: 28px 22px;
-    width: 100%;
-    max-width: 380px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    text-align: center;
-    animation: cardIn 0.4s ease;
-  }
-  .welcome-logo {
-    font-size: 60px;
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-  .welcome-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--primary-dark);
-    margin-bottom: 6px;
-  }
-  .welcome-subtitle {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 22px;
-    line-height: 1.4;
-  }
-  .welcome-tabs {
-    display: flex;
-    gap: 6px;
-    background: var(--bg);
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 18px;
-  }
-  .welcome-tab {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-    border-radius: 9px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .welcome-tab.active {
-    background: white;
-    color: var(--primary);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  }
-  .welcome-error {
-    background: var(--danger-light);
-    color: var(--danger);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 10px 14px;
-    border-radius: 10px;
-    margin-top: 8px;
-    text-align: left;
-  }
-  .welcome-note {
-    font-size: 11px;
-    color: var(--text-secondary);
-    margin-top: 16px;
-    line-height: 1.5;
-  }/* ============ СКРЫТИЕ ЭЛЕМЕНТОВ ============ */
-  .hidden { display: none !important; }
-</style>
-</head>
-<body>
 
 <!-- ============ ВЕРХНЯЯ ШАПКА ============ -->
 <header class="app-header">
@@ -827,14 +399,15 @@
   <div class="sidebar-body" id="sidebar-body"></div>
   <div class="sidebar-footer">
     📦 Посылки и 💱 Конвертер<br>
-    Автор: <strong>NN</strong>
+    Автор: <strong>NN</strong><br>
+    <button onclick="logout()" style="margin-top:10px; padding:8px; font-size:12px; background:var(--danger);">🚪 Выйти</button>
   </div>
 </aside>
 
 <!-- ============ ОСНОВНОЙ КОНТЕНТ ============ -->
 <main class="main-content">
 
-  <!-- ==================== ЭКРАН ПОСЫЛОК ==================== -->
+  <!-- ЭКРАН ПОСЫЛОК -->
   <div id="screen-packages">
     <div class="tabs">
       <div class="tab active" data-tab="scan">
@@ -851,7 +424,6 @@
       </div>
     </div>
 
-    <!-- СКАНЕР -->
     <div class="panel active" id="panel-scan">
       <div id="reader"></div>
       <div class="scan-hint">Наведите камеру на штрих-код посылки</div>
@@ -876,12 +448,11 @@
       <div id="scan-result" style="margin-top:12px;"></div>
     </div>
 
-    <!-- ДОБАВИТЬ -->
     <div class="panel" id="panel-add">
       <div class="card">
         <h3>📁 Из галереи</h3>
         <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
-          Загрузите фото штрих-кода — трек-номер определится автоматически
+          Загрузите фото штрих-кода
         </p>
         <button onclick="document.getElementById('photo-input').click()" class="orange">
           📷 Выбрать фото
@@ -908,14 +479,13 @@
       <button onclick="savePackage()" style="margin-top: 8px;">💾 Сохранить в базу</button>
     </div>
 
-    <!-- СПИСОК -->
     <div class="panel" id="panel-list">
       <div class="stats" id="stats"></div>
       <div id="list"></div>
     </div>
   </div>
 
-  <!-- ==================== ЭКРАН КОНВЕРТЕРА ==================== -->
+  <!-- ЭКРАН КОНВЕРТЕРА -->
   <div id="screen-converter" class="hidden">
     
     <div class="converter-card">
@@ -925,7 +495,7 @@
         <input id="rate-cny-byn" type="number" step="0.0001" inputmode="decimal" placeholder="4.5000" value="4.5000">
       </div>
       <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">
-        Введите курс вручную. Расчёт пересчитывается автоматически.
+        Введите курс вручную
       </p>
       <div class="saved-rates" id="saved-rates"></div>
     </div>
@@ -933,7 +503,6 @@
     <div class="converter-card">
       <div class="converter-title">💱 Конвертер</div>
 
-      <!-- BYN → CNY -->
       <div class="currency-input">
         <span class="flag">🇧🇾</span>
         <input id="input-byn" type="number" step="0.01" inputmode="decimal" placeholder="0.00" oninput="convert('byn')">
@@ -942,7 +511,6 @@
 
       <div class="swap-btn" onclick="swapCurrencies()">⇅</div>
 
-      <!-- CNY → BYN -->
       <div class="currency-input">
         <span class="flag">🇨🇳</span>
         <input id="input-cny" type="number" step="0.01" inputmode="decimal" placeholder="0.00" oninput="convert('cny')">
@@ -957,7 +525,6 @@
     </div>
 
     <button class="ghost" onclick="clearConverter()" style="margin-top:16px;">🗑 Очистить</button>
-
   </div>
 
 </main>
@@ -977,7 +544,94 @@
 <div class="footer">Автор: <strong>NN</strong></div>
 
 <script>
-// ============ ХРАНИЛИЩЕ ============
+// ============ АВТОРИЗАЦИЯ ============
+const USERS_KEY = 'users_db_v1';
+const SESSION_KEY = 'current_session_v1';
+
+function loadUsers() {
+  try { return JSON.parse(localStorage.getItem(USERS_KEY) || '{}'); }
+  catch (e) { return {}; }
+}
+function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+function getCurrentUser() { return localStorage.getItem(SESSION_KEY); }
+function setCurrentUser(nick) { localStorage.setItem(SESSION_KEY, nick); }
+function logout() {
+  if (!confirm('Выйти из аккаунта?')) return;
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+function switchWelcomeTab(tab) {
+  document.querySelectorAll('.welcome-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.welcome-tab[data-wtab="${tab}"]`).classList.add('active');
+  document.getElementById('welcome-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('welcome-register').style.display = tab === 'register' ? 'block' : 'none';
+  showWelcomeError('');
+}
+
+function showWelcomeError(msg) {
+  const el = document.getElementById('welcome-error');
+  if (!msg) { el.style.display = 'none'; el.textContent = ''; return; }
+  el.style.display = 'block';
+  el.textContent = msg;
+}
+
+function doRegister() {
+  const nick = document.getElementById('reg-nick').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  const pass2 = document.getElementById('reg-pass2').value;
+
+  if (nick.length < 3) return showWelcomeError('Ник минимум 3 символа');
+  if (pass.length < 4) return showWelcomeError('Пароль минимум 4 символа');
+  if (pass !== pass2) return showWelcomeError('Пароли не совпадают');
+
+  const users = loadUsers();
+  const key = nick.toLowerCase();
+  if (users[key]) return showWelcomeError('Такой ник уже существует');
+
+  users[key] = { nick, pass, createdAt: Date.now() };
+  saveUsers(users);
+  setCurrentUser(nick);
+  closeWelcome();
+}
+
+function doLogin() {
+  const nick = document.getElementById('login-nick').value.trim();
+  const pass = document.getElementById('login-pass').value;
+
+  if (!nick || !pass) return showWelcomeError('Введите ник и пароль');
+
+  const users = loadUsers();
+  const user = users[nick.toLowerCase()];
+  if (!user) return showWelcomeError('Пользователь не найден. Зарегистрируйтесь.');
+  if (user.pass !== pass) return showWelcomeError('Неверный пароль');
+
+  setCurrentUser(user.nick);
+  closeWelcome();
+}
+
+function closeWelcome() {
+  const screen = document.getElementById('welcome-screen');
+  screen.style.opacity = '0';
+  screen.style.transition = 'opacity 0.3s';
+  setTimeout(() => { screen.style.display = 'none'; }, 300);
+  setTimeout(() => {
+    renderSidebar();
+    if (typeof renderList === 'function') renderList();
+  }, 100);
+}
+
+function checkAuth() {
+  const user = getCurrentUser();
+  const screen = document.getElementById('welcome-screen');
+  if (user) {
+    screen.style.display = 'none';
+  } else {
+    screen.style.display = 'flex';
+  }
+}
+
+// ============ ХРАНИЛИЩЕ ПОСЫЛОК ============
 const STORAGE_KEY = 'packages_db_v3';
 const RATES_KEY = 'saved_rates_v1';
 let currentPersonFilter = null;
@@ -987,7 +641,6 @@ function loadDB() {
   catch (e) { return {}; }
 }
 function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
-
 function loadRates() {
   try { return JSON.parse(localStorage.getItem(RATES_KEY) || '[]'); }
   catch (e) { return []; }
@@ -1010,7 +663,6 @@ function switchScreen(screen) {
     menuBtn.classList.remove('hidden');
     headerTitle.textContent = '📦 Посылки';
     headerSubtitle.textContent = currentPersonFilter ? `👤 ${currentPersonFilter}` : 'Все посылки';
-    // Запускаем сканер, если активна вкладка сканера
     if (document.querySelector('.tab.active')?.dataset.tab === 'scan') {
       startScanner();
     }
@@ -1455,7 +1107,7 @@ function prefillAdd(track) {
 }
 
 // ============ КОНВЕРТЕР ВАЛЮТ ============
-let lastEditedCurrency = 'byn'; // какую валюту редактировали последней
+let lastEditedCurrency = 'byn';
 
 function getRate() {
   const r = parseFloat(document.getElementById('rate-cny-byn').value);
@@ -1475,7 +1127,6 @@ function convert(source) {
   }
 
   if (source === 'byn') {
-    // BYN → CNY
     const byn = parseFloat(document.getElementById('input-byn').value);
     if (isNaN(byn) || byn === 0) {
       document.getElementById('input-cny').value = '';
@@ -1488,7 +1139,6 @@ function convert(source) {
     resultValue.textContent = cny.toFixed(2) + ' CNY';
     resultSub.textContent = `${byn.toFixed(2)} BYN ÷ ${rate} = ${cny.toFixed(2)} CNY`;
   } else {
-    // CNY → BYN
     const cny = parseFloat(document.getElementById('input-cny').value);
     if (isNaN(cny) || cny === 0) {
       document.getElementById('input-byn').value = '';
@@ -1506,12 +1156,8 @@ function convert(source) {
 function swapCurrencies() {
   const bynVal = document.getElementById('input-byn').value;
   const cnyVal = document.getElementById('input-cny').value;
-
-  // Меняем местами значения и считаем от того, что было введено
   document.getElementById('input-byn').value = cnyVal;
   document.getElementById('input-cny').value = bynVal;
-
-  // Пересчитываем от той валюты, что была введена
   convert(lastEditedCurrency === 'byn' ? 'cny' : 'byn');
 }
 
@@ -1551,23 +1197,19 @@ function saveCurrentRate() {
 
   const rates = loadRates();
   const today = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
-
-  // Убираем дубликаты
   const filtered = rates.filter(r => Math.abs(r.rate - rate) > 0.0001);
   filtered.unshift({ rate, date: today });
-
-  // Храним максимум 10 курсов
   saveRates(filtered.slice(0, 10));
   renderSavedRates();
 }
 
 // ============ СТАРТ ============
 window.addEventListener('load', () => {
+  checkAuth();
   renderSidebar();
   renderSavedRates();
   convert('byn');
 
-  // Слушаем изменение курса
   document.getElementById('rate-cny-byn').addEventListener('input', () => {
     convert(lastEditedCurrency);
     renderSavedRates();
